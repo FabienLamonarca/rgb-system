@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+    front:
+        build:
+            context: ./front
+            dockerfile: ../cd/docker/front/Dockerfile
+            args: {}
+        ports:
+        - "8080:8080"

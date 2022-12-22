@@ -1,0 +1,4 @@
+namespace: rgb-system
+
+resources:
+- 0-namespace.yaml
