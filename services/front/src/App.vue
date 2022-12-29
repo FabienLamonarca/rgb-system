@@ -1,6 +1,11 @@
 <script setup>
 import AppHeader from "./components/AppHeader.vue";
 import AppMain from "./components/AppMain.vue";
+
+import { provide } from "vue";
+
+provide("apiHost", "http://localhost");
+provide("apiPort", 8000);
 </script>
 
 <template>

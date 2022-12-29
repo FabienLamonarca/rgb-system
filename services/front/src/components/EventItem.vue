@@ -2,6 +2,11 @@
 import { ref } from "vue";
 import axios from "axios";
 
+import { inject } from "vue";
+
+const api = inject("apiHost") + ":" + inject("apiPort");
+const apiEventEndpoint = "event";
+
 const props = defineProps({
   color: {
     type: String,
@@ -15,22 +20,32 @@ const props = defineProps({
 
 const num = ref(props.num);
 const color = ref(props.color);
-const loading = ref();
+const errorState = ref(false);
+const successState = ref(false);
+const loadingState = ref(false);
+
+console.log(errorState.value);
 
 function submitItem() {
-  loading.value = true;
+  loadingState.value = true;
   axios
-    .post("http://rgb-api/event", {
+    .post(`${api}/${apiEventEndpoint}`, {
       color: color.value,
       count: num.value,
     })
     .then((response) => {
-      console.info(`Send ${num.value} ${color.value}`);
+      errorState.value = false;
+      successState.value = true;
+      console.info(response);
+      alert(`Send ${num.value} ${color.value}`);
     })
     .catch((error) => {
-      console.error(error);
+      successState.value = false;
+      errorState.value = true;
     })
-    .finally(() => (loading.value = false));
+    .finally(() => {
+      loadingState.value = false;
+    });
 }
 </script>
 
@@ -52,14 +67,26 @@ function submitItem() {
           type="text"
           class="form-control"
           aria-describedby="button-addon"
+          :class="{
+            'is-invalid': errorState,
+          }"
         />
         <button
           @click="submitItem"
           class="btn btn-outline-secondary"
+          :class="{
+            'btn-outline-danger': errorState,
+          }"
           type="button"
           id="button-addon"
         >
-          Send event
+          Send&nbsp;
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            v-show="loadingState"
+          ></span>
         </button>
       </div>
     </div>

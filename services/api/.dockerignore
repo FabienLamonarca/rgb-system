@@ -1,0 +1,11 @@
+# python
+.venv/
+envs/
+
+# git
+.gitignore
+
+# docker
+docker/
+docker-compose.yml
+.dockerignore
