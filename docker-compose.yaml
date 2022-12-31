@@ -48,7 +48,6 @@ services:
       - ./services/api/envs/docker.env
     volumes:
       - "./services/api/app:/workspace/app" # inject code for live reload
-      - "./services/api/envs/docker.env:/workspace/application.env" # inject environment
     networks:
       - frontend
       - backend
@@ -102,4 +101,6 @@ services:
     depends_on:
       - kafka
       - kafka-schema-registry
+    # registry endpoint is not available at the same time and cause to fail redpanda startup
+    # it will restart several time waiting for it.
     restart: on-failure

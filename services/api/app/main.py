@@ -1,13 +1,10 @@
-from fastapi import FastAPI, status
+from app.models.events import rgbEvent
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
-from typing import Union
-
-
-
+from app.dependencies import KafkaClient, getKafkaClient
 from app.settings import get_settings
-
 from fastapi.middleware.cors import CORSMiddleware
+
 
 origins = [
     "http://localhost:8080",
@@ -23,19 +20,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class rgbEvent(BaseModel):
-    color: str
-    count: int
-
 @app.get("/")
 async def root():
     return RedirectResponse("/docs")
-
 
 @app.get("/info")
 async def display_settings():
     return get_settings().dict()
 
 @app.post("/event", status_code=status.HTTP_200_OK)
-async def eventLogging(event: rgbEvent):
+async def eventLogging(event: rgbEvent, kafkaClient:KafkaClient=Depends(getKafkaClient)):
+    if event.color in ["red", "green", "blue"]:
+        kafkaClient.produce_event(event)
+    else:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Color not allowed")
+    
     return { "action": "save", "event": event.json() }
