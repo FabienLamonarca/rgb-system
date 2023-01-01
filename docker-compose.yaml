@@ -86,6 +86,12 @@ services:
       - kafka
     ports:
       - "8081:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
   red-panda:
     image: "docker.redpanda.com/vectorized/console:latest"
@@ -99,8 +105,7 @@ services:
     networks:
       - kafka
     depends_on:
-      - kafka
-      - kafka-schema-registry
-    # registry endpoint is not available at the same time and cause to fail redpanda startup
-    # it will restart several time waiting for it.
-    restart: on-failure
+      kafka:
+        condition: service_started
+      kafka-schema-registry:
+        condition: service_healthy
