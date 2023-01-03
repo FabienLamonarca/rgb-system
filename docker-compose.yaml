@@ -84,6 +84,7 @@ services:
       - SCHEMA_REGISTRY_HOST_NAME=kafka-schema-registry
     networks:
       - kafka
+      - backend
     ports:
       - "8081:8081"
     healthcheck:
