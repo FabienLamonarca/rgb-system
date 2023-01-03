@@ -27,7 +27,7 @@ WORKDIR /workspace
 
 RUN poetry install
 
-ENTRYPOINT ["poetry", "run", "uvicorn",  "app.main:app"]
-#ENTRYPOINT [ "tail", "-f", "/dev/null"] # debug container purpose
+ENTRYPOINT ["poetry", "run"]
+# ENTRYPOINT [ "tail", "-f", "/dev/null"] # debug container purpose
 
-CMD ["--host=0.0.0.0", "--port=8000"]
+CMD ["uvicorn",  "app.main:app", "--host=0.0.0.0", "--port=8000"]

@@ -27,7 +27,7 @@ services:
     networks:
       - frontend
 
-  api:
+  api: &api
     hostname: rgb-api
     build:
       context: ./services/api
@@ -36,6 +36,8 @@ services:
         PYTHON_VERSION: 3.8
         POETRY_VERSION: 1.2.0
     command:
+      - "uvicorn"
+      - "app.main:app"
       - "--host=0.0.0.0"
       - "--port=8000"
       - "--log-config=logger.yml"
@@ -51,6 +53,18 @@ services:
     networks:
       - frontend
       - backend
+
+  schema-updater:
+    <<: *api
+    ports: []
+    volumes:
+      - "./services/api:/workspace"
+    command: ["python", "scripts/update_schemas.py"]
+    networks:
+      - backend
+    depends_on:
+      kafka-schema-registry:
+        condition: service_healthy
 
   zookeeper:
     image: "bitnami/zookeeper:latest"
