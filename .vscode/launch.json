@@ -1,0 +1,45 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FRONT",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "dev"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "cwd": "${workspaceFolder}/services/front"
+    },
+    {
+      "name": "schemas registry update",
+      "type": "python",
+      "request": "launch",
+      "program": "./scripts/update_schemas.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}/services/api",
+      "envFile": "${workspaceFolder}/services/api/envs/local.dev.env"
+    },
+    {
+      "name": "FastAPI dev",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--port=8000",
+        "--log-config=logger.yml",
+        "--reload",
+        "--reload-include",
+        "*.env"
+      ],
+      "jinja": true,
+      "justMyCode": true,
+      "cwd": "${workspaceFolder}/services/api",
+      "envFile": "${workspaceFolder}/services/api/envs/local.dev.env"
+    }
+  ]
+}

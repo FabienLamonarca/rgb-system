@@ -26,6 +26,8 @@ services:
       - "8080:8080"
     networks:
       - frontend
+    profiles:
+      - full
 
   api: &api
     hostname: rgb-api
@@ -53,6 +55,8 @@ services:
     networks:
       - frontend
       - backend
+    profiles:
+      - full
 
   schema-updater:
     <<: *api
@@ -65,6 +69,9 @@ services:
     depends_on:
       kafka-schema-registry:
         condition: service_healthy
+    profiles:
+      - full
+      - kafka
 
   zookeeper:
     image: "bitnami/zookeeper:latest"
@@ -73,6 +80,9 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
+      - kafka
+    profiles:
+      - full
       - kafka
 
   kafka:
@@ -90,6 +100,9 @@ services:
     networks:
       - kafka
       - backend
+    profiles:
+      - full
+      - kafka
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:latest
@@ -107,6 +120,9 @@ services:
       timeout: 3s
       retries: 5
       start_period: 5s
+    profiles:
+      - full
+      - kafka
 
   red-panda:
     image: "docker.redpanda.com/vectorized/console:latest"
@@ -124,3 +140,6 @@ services:
         condition: service_started
       kafka-schema-registry:
         condition: service_healthy
+    profiles:
+      - full
+      - kafka

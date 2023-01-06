@@ -16,6 +16,11 @@ if __name__ == '__main__':
     
     schema_reg_host = os.getenv("kafka_registry_host")
     schema_reg_port = os.getenv("kafka_registry_port")
+    
+    if not schema_reg_host or not schema_reg_port:
+        logger.error("schema reg not defined")
+        sys.exit(-1)
+        
     base_uri = f"http://{schema_reg_host}:{schema_reg_port}"
     
     schemas_file_path = "resources/schemas.json"
