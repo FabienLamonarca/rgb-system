@@ -7,9 +7,10 @@ logger = getLogger()
        
 
 async def getKafkaClient() -> KafkaClient:
-    client = KafkaClient(settings.kafka_host, settings.kafka_port)
+    client = KafkaClient()
     try:
         yield client
     finally:
-        client.close()
+        # can close service if needed
+        pass
         

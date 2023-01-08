@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "FRONT",
+      "name": "front",
       "request": "launch",
       "runtimeArgs": ["run-script", "dev"],
       "runtimeExecutable": "npm",
@@ -24,7 +24,7 @@
       "envFile": "${workspaceFolder}/services/api/envs/local.dev.env"
     },
     {
-      "name": "FastAPI dev",
+      "name": "API dev",
       "type": "python",
       "request": "launch",
       "module": "uvicorn",

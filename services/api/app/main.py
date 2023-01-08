@@ -6,6 +6,9 @@ from app.dependencies import KafkaClient, getKafkaClient
 from app.settings import get_settings
 from fastapi.middleware.cors import CORSMiddleware
 
+from avro.errors import AvroTypeException
+
+
 
 origins = [
     "http://localhost:8080",
@@ -36,7 +39,11 @@ async def schemas():
 @app.post("/event", status_code=status.HTTP_200_OK)
 async def eventLogging(event: rgbEvent, kafkaClient:KafkaClient=Depends(getKafkaClient)):
     if event.color in ["red", "green", "blue"]:
-        kafkaClient.produce_event(event)
+        try:
+            kafkaClient.produce_event(event)
+        except AvroTypeException:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Avro schema not supported")
+
     else:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Color not allowed")
     

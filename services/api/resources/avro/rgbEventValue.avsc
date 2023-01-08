@@ -1,0 +1,24 @@
+{
+  "namespace": "rgb",
+  "type": "record",
+  "name": "rgbEvent",
+  "doc": "[Red / Green / Blue] events",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "logicalType": "uuid",
+      "doc": "A random UUID used as identifier"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "doc": "The color of the event"
+    },
+    {
+      "name": "data",
+      "type": "long",
+      "doc": "A random int from 0 to sys.MAX_INT"
+    }
+  ]
+}

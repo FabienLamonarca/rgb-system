@@ -51,7 +51,7 @@ services:
     env_file:
       - ./services/api/envs/docker.env
     volumes:
-      - "./services/api/app:/workspace/app" # inject code for live reload
+      - "./services/api:/workspace" # inject workspace for live reload
     networks:
       - frontend
       - backend
