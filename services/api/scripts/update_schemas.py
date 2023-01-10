@@ -6,7 +6,14 @@ import sys
 import requests
 import yaml
 
-
+def register_schema(name, key_or_value, schema):
+    return {
+        f"{name}-{key_or_value}": requests.post(
+            url=f'{base_uri}/subjects/{name}-{key_or_value}/versions',
+            data=json.dumps({
+            'schema': json.dumps(schema)
+        })).json()
+    }
 
 if __name__ == '__main__':
     
@@ -23,22 +30,21 @@ if __name__ == '__main__':
         
     base_uri = f"http://{schema_reg_host}:{schema_reg_port}"
     
-    schemas_file_path = "resources/schemas.json"
+    schemas_folder_path = "resources/avro"
     responses = []
     
-    with open(schemas_file_path) as schema_file:
-        schemas = json.load(schema_file)
-        for schema_data in schemas:
-            name = schema_data["name"]
-            key_or_value = schema_data["type"]
-            schema = schema_data["schema"]
+    schemas = [
+        {"name": "rgbEvent", "type": "key"},
+        {"name": "rgbEvent", "type": "value"}
+    ]
+    
+    for schema in schemas:
+        name = schema["name"]
+        key_or_value = schema["type"]
+        filename = f"{name}{key_or_value.capitalize()}.avsc"
+        with open(f"{schemas_folder_path}/{filename}") as schema_file:
+            responses.append(register_schema(name, key_or_value, json.load(schema_file)))
 
-            res = requests.post(
-                url=f'{base_uri}/subjects/{name}-{key_or_value}/versions',
-                data=json.dumps({
-                'schema': json.dumps(schema)
-                })
-            ).json()
-            responses.append({f"{name}-{key_or_value}": res})
     logger.info(responses)
+
     sys.exit(0)

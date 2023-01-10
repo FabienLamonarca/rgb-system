@@ -1,7 +1,7 @@
 {
   "namespace": "rgb",
   "type": "record",
-  "name": "rgbEvent",
+  "name": "rgb-event-value",
   "doc": "[Red / Green / Blue] events",
   "fields": [
     {

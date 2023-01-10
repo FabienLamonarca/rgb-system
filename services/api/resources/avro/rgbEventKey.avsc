@@ -1,6 +1,6 @@
 {
   "namespace": "rgb",
   "type": "string",
-  "name": "rgbEventKey",
+  "name": "rgb-event-key",
   "doc": "The color of the event only"
 }

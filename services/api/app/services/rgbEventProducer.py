@@ -1,4 +1,3 @@
-import json
 import logging
 
 from confluent_kafka.avro import AvroProducer
@@ -9,27 +8,27 @@ from avro.errors import AvroTypeException
 settings = get_settings()    
 logger = logging.getLogger()
 
-class rgbEventProducer(object):
+class rgbEventProducer(AvroProducer):
     topic = "rgb-event"
     config = {
         "bootstrap.servers": f"{settings.kafka_host}:{settings.kafka_port}",
-        "schema.registry.url": f"http://{settings.kafka_registry_host}:{settings.kafka_registry_port}"
+        "schema.registry.url": f"http://{settings.kafka_registry_host}:{settings.kafka_registry_port}",
+        "compression.type": "gzip"
     }
     key_schema = avro.load("resources/avro/rgbEventKey.avsc")
     value_schema = avro.load("resources/avro/rgbEventValue.avsc")
     
-    def __init__(self) -> None:
-        self.producer = AvroProducer(
+    def __init__(self, **kwargs) -> None:
+        super().__init__(
             self.config, 
             default_key_schema=self.key_schema, 
-            default_value_schema=self.value_schema
+            default_value_schema=self.value_schema,
+            **kwargs
         )
         
     def produce(self, key, value):  
         try:
-            self.producer.produce(topic = self.topic, key = key, value = value)
-            self.producer.flush()
-            return True
+            super().produce(topic = self.topic, key = key, value = value)
             
         except AvroTypeException as avroException:
             logger.error(avroException)
@@ -38,4 +37,4 @@ class rgbEventProducer(object):
             logger.debug(f"value -> {value}")
             logger.debug(f"value_schema ->{self.value_schema.canonical_form}")
             raise AvroTypeException
-        
+    
