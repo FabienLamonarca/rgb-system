@@ -15,8 +15,8 @@ class rgbEventProducer(AvroProducer):
         "schema.registry.url": f"http://{settings.kafka_registry_host}:{settings.kafka_registry_port}",
         "compression.type": "gzip"
     }
-    key_schema = avro.load("resources/avro/rgbEventKey.avsc")
-    value_schema = avro.load("resources/avro/rgbEventValue.avsc")
+    key_schema = avro.load("resources/avro/rgb_event_key.avsc")
+    value_schema = avro.load("resources/avro/rgb_event_value.avsc")
     
     def __init__(self, **kwargs) -> None:
         super().__init__(

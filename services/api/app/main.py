@@ -1,4 +1,3 @@
-from app.services.schema_registry import update_schemas
 from app.models.events import rgbEvent
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.responses import RedirectResponse
@@ -31,10 +30,6 @@ async def root():
 @app.get("/info")
 async def display_settings():
     return get_settings().dict()
-
-@app.get("/schemas", status_code=status.HTTP_200_OK)
-async def schemas():
-    return update_schemas()
 
 @app.post("/event", status_code=status.HTTP_200_OK)
 async def eventLogging(event: rgbEvent, kafkaClient:KafkaClient=Depends(getKafkaClient)):

@@ -34,14 +34,14 @@ if __name__ == '__main__':
     responses = []
     
     schemas = [
-        {"name": "rgbEvent", "type": "key"},
-        {"name": "rgbEvent", "type": "value"}
+        {"name": "rgb-event", "type": "key", "file":"rgb_event_key.avsc"},
+        {"name": "rgb-event", "type": "value", "file":"rgb_event_value.avsc"}
     ]
     
     for schema in schemas:
         name = schema["name"]
         key_or_value = schema["type"]
-        filename = f"{name}{key_or_value.capitalize()}.avsc"
+        filename = schema["file"]
         with open(f"{schemas_folder_path}/{filename}") as schema_file:
             responses.append(register_schema(name, key_or_value, json.load(schema_file)))
 
