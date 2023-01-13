@@ -5,18 +5,15 @@
 The only thing you will need should be **Docker** 🐋
 
 ```bash
-# To build only kafka:
-docker-compose --profile=kafka up -d --build
-
-# To build all the app:
-docker-compose --profile=full up -d --build
-
-
+# To build all the backend:
 docker-compose up -d --build
+
+# To build all the app including front-end:
+docker-compose --profile=all up -d --build
 ```
 
 ## Time to clean up ? 🧽
 
 ```bash
-docker-compose down -v --rmi all
+docker-compose down -v --profile=all --rmi all
 ```

@@ -38,7 +38,6 @@ async def eventLogging(event: rgbEvent, kafkaClient:KafkaClient=Depends(getKafka
             kafkaClient.produce_event(event)
         except AvroTypeException:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Avro schema not supported")
-
     else:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Color not allowed")
     
