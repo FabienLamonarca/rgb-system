@@ -8,7 +8,7 @@ import { ref } from "vue";
 const toasts = ref([]);
 
 const closeToast = (toastIndex) => {
-  toast.value.slice(toastIndex, 1);
+  toasts.value.slice(toastIndex, 1);
 }
 
 const createToast = ({ color, num }) => {
