@@ -42,6 +42,7 @@ function submitItem() {
     .catch((error) => {
       successState.value = false;
       errorState.value = true;
+      emit('requestError', { color: color.value, num: num.value });
     })
     .finally(() => {
       loadingState.value = false;

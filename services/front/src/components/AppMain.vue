@@ -11,8 +11,9 @@ const closeToast = (toastIndex) => {
   toasts.value.slice(toastIndex, 1);
 }
 
-const createToast = ({ color, num }) => {
+const createToast = ({ color, num }, error = false) => {
   toasts.value.push({
+    error,
     color,
     num,
     date: new Date()
@@ -22,7 +23,8 @@ const createToast = ({ color, num }) => {
 </script>
 
 <template>
-  <EventItem color="red" num="500" @request-success="(values) => createToast(values)">
+  <EventItem color="red" num="500" @request-success="(values) => createToast(values)"
+    @request-error="(values) => createToast(values, true)">
     <template #icon>
       <IconRed />
     </template>
@@ -34,7 +36,8 @@ const createToast = ({ color, num }) => {
     </template>
   </EventItem>
 
-  <EventItem color="green" num="100" @request-success="(values) => createToast(values)">
+  <EventItem color="green" num="100" @request-success="(values) => createToast(values)"
+    @request-error="(values) => createToast(values, true)">
     <template #icon>
       <IconGreen />
     </template>
@@ -46,7 +49,8 @@ const createToast = ({ color, num }) => {
     </template>
   </EventItem>
 
-  <EventItem color="blue" num="3" @request-success="(values) => createToast(values)">
+  <EventItem color="blue" num="3" @request-success="(values) => createToast(values)"
+    @request-error="(values) => createToast(values, true)">
     <template #icon>
       <IconBlue />
     </template>
@@ -62,7 +66,7 @@ const createToast = ({ color, num }) => {
     && 'text-bg-primary', toast.color === 'red' && 'text-bg-danger', toast.color === 'green' && 'text-bg-success']"
       role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-body d-flex justify-content-between">
-        {{ toast.num }}
+        {{ toast.num }} <span v-if="toast.error">An error has occured!</span>
         <button @click="closeToast(index)" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
       </div>
     </div>
