@@ -3,10 +3,26 @@ import EventItem from "./EventItem.vue";
 import IconRed from "./icons/IconRed.vue";
 import IconGreen from "./icons/IconGreen.vue";
 import IconBlue from "./icons/IconBlue.vue";
+import { ref } from "vue";
+
+const toasts = ref([]);
+
+const closeToast = (x) => {
+  toast.value.slice(x, 1);
+}
+
+const test = ({ color, num }) => {
+  toasts.value.push({
+    color,
+    num,
+    date: new Date()
+  });
+}
+
 </script>
 
 <template>
-  <EventItem color="red" num="500">
+  <EventItem color="red" num="500" @request-success="(x) => test(x)">
     <template #icon>
       <IconRed />
     </template>
@@ -18,7 +34,7 @@ import IconBlue from "./icons/IconBlue.vue";
     </template>
   </EventItem>
 
-  <EventItem color="green" num="100">
+  <EventItem color="green" num="100" @request-success="(x) => test(x)">
     <template #icon>
       <IconGreen />
     </template>
@@ -30,7 +46,7 @@ import IconBlue from "./icons/IconBlue.vue";
     </template>
   </EventItem>
 
-  <EventItem color="blue" num="3">
+  <EventItem color="blue" num="3" @request-success="(x) => test(x)">
     <template #icon>
       <IconBlue />
     </template>
@@ -41,4 +57,14 @@ import IconBlue from "./icons/IconBlue.vue";
       in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
     </template>
   </EventItem>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div v-for="(toast, index) in toasts" id="liveToast" class="toast show" :class="[toast.color === 'blue'
+    && 'text-bg-primary', toast.color === 'red' && 'text-bg-danger', toast.color === 'green' && 'text-bg-success']"
+      role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body d-flex justify-content-between">
+        {{ toast.num }}
+        <button @click="closeToast(index)" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
+      </div>
+    </div>
+  </div>
 </template>
