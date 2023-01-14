@@ -7,11 +7,11 @@ import { ref } from "vue";
 
 const toasts = ref([]);
 
-const closeToast = (x) => {
-  toast.value.slice(x, 1);
+const closeToast = (toastIndex) => {
+  toast.value.slice(toastIndex, 1);
 }
 
-const test = ({ color, num }) => {
+const createToast = ({ color, num }) => {
   toasts.value.push({
     color,
     num,
@@ -22,7 +22,7 @@ const test = ({ color, num }) => {
 </script>
 
 <template>
-  <EventItem color="red" num="500" @request-success="(x) => test(x)">
+  <EventItem color="red" num="500" @request-success="(values) => createToast(values)">
     <template #icon>
       <IconRed />
     </template>
@@ -34,7 +34,7 @@ const test = ({ color, num }) => {
     </template>
   </EventItem>
 
-  <EventItem color="green" num="100" @request-success="(x) => test(x)">
+  <EventItem color="green" num="100" @request-success="(values) => createToast(values)">
     <template #icon>
       <IconGreen />
     </template>
@@ -46,7 +46,7 @@ const test = ({ color, num }) => {
     </template>
   </EventItem>
 
-  <EventItem color="blue" num="3" @request-success="(x) => test(x)">
+  <EventItem color="blue" num="3" @request-success="(values) => createToast(values)">
     <template #icon>
       <IconBlue />
     </template>
