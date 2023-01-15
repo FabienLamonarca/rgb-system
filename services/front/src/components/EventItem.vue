@@ -3,10 +3,10 @@ import { ref } from "vue";
 import axios from "axios";
 
 import { inject } from "vue";
+import { toasts } from "./Toast";
 
 const api = inject("apiHost") + ":" + inject("apiPort");
 const apiEventEndpoint = "event";
-const emit = defineEmits(['request', 'requestSuccess'])
 
 const props = defineProps({
   color: {
@@ -25,8 +25,6 @@ const errorState = ref(false);
 const successState = ref(false);
 const loadingState = ref(false);
 
-console.log(errorState.value);
-
 function submitItem() {
   loadingState.value = true;
   axios
@@ -37,12 +35,12 @@ function submitItem() {
     .then((response) => {
       errorState.value = false;
       successState.value = true;
-      emit('requestSuccess', { color: color.value, num: num.value });
+      toasts.addToast(color.value, num.value);
     })
     .catch((error) => {
       successState.value = false;
       errorState.value = true;
-      emit('requestError', { color: color.value, num: num.value });
+      toasts.addToast(color.value, num.value, true);
     })
     .finally(() => {
       loadingState.value = false;
@@ -63,14 +61,31 @@ function submitItem() {
         <slot name="text"></slot>
       </div>
       <div class="input-group mb-2">
-        <input v-model="num" type="text" class="form-control" aria-describedby="button-addon" :class="{
-          'is-invalid': errorState,
-        }" />
-        <button @click="submitItem" class="btn btn-outline-secondary" :class="{
-          'btn-outline-danger': errorState,
-        }" type="button" id="button-addon">
+        <input
+          v-model="num"
+          type="text"
+          class="form-control"
+          aria-describedby="button-addon"
+          :class="{
+            'is-invalid': errorState,
+          }"
+        />
+        <button
+          @click="submitItem"
+          class="btn btn-outline-secondary"
+          :class="{
+            'btn-outline-danger': errorState,
+          }"
+          type="button"
+          id="button-addon"
+        >
           Send&nbsp;
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-show="loadingState"></span>
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            v-show="loadingState"
+          ></span>
         </button>
       </div>
     </div>

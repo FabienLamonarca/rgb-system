@@ -3,28 +3,11 @@ import EventItem from "./EventItem.vue";
 import IconRed from "./icons/IconRed.vue";
 import IconGreen from "./icons/IconGreen.vue";
 import IconBlue from "./icons/IconBlue.vue";
-import { ref } from "vue";
-
-const toasts = ref([]);
-
-const closeToast = (toastIndex) => {
-  toasts.value.slice(toastIndex, 1);
-}
-
-const createToast = ({ color, num }, error = false) => {
-  toasts.value.push({
-    error,
-    color,
-    num,
-    date: new Date()
-  });
-}
-
+import Toast from "./Toast.vue";
 </script>
 
 <template>
-  <EventItem color="red" num="500" @request-success="(values) => createToast(values)"
-    @request-error="(values) => createToast(values, true)">
+  <EventItem color="red" num="500">
     <template #icon>
       <IconRed />
     </template>
@@ -36,8 +19,7 @@ const createToast = ({ color, num }, error = false) => {
     </template>
   </EventItem>
 
-  <EventItem color="green" num="100" @request-success="(values) => createToast(values)"
-    @request-error="(values) => createToast(values, true)">
+  <EventItem color="green" num="100">
     <template #icon>
       <IconGreen />
     </template>
@@ -49,8 +31,7 @@ const createToast = ({ color, num }, error = false) => {
     </template>
   </EventItem>
 
-  <EventItem color="blue" num="3" @request-success="(values) => createToast(values)"
-    @request-error="(values) => createToast(values, true)">
+  <EventItem color="blue" num="3">
     <template #icon>
       <IconBlue />
     </template>
@@ -61,14 +42,6 @@ const createToast = ({ color, num }, error = false) => {
       in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
     </template>
   </EventItem>
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div v-for="(toast, index) in toasts" id="liveToast" class="toast show" :class="[toast.color === 'blue'
-    && 'text-bg-primary', toast.color === 'red' && 'text-bg-danger', toast.color === 'green' && 'text-bg-success']"
-      role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-body d-flex justify-content-between">
-        {{ toast.num }} <span v-if="toast.error">An error has occured!</span>
-        <button @click="closeToast(index)" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
-      </div>
-    </div>
-  </div>
+
+  <Toast></Toast>
 </template>
