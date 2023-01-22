@@ -3,7 +3,7 @@ import { ref } from "vue";
 import axios from "axios";
 
 import { inject } from "vue";
-import { toasts } from "./Toast";
+import { toasts } from "./toast/Toast";
 
 const api = inject("apiHost") + ":" + inject("apiPort");
 const apiEventEndpoint = "event";
@@ -40,7 +40,7 @@ function submitItem() {
     .catch((error) => {
       successState.value = false;
       errorState.value = true;
-      toasts.addToast(color.value, num.value, true);
+      toasts.addToast(null, null, true);
     })
     .finally(() => {
       loadingState.value = false;
