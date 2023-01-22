@@ -1,14 +1,13 @@
 <script setup>
 import EventItem from "./EventItem.vue";
-import IconRed from "./icons/IconRed.vue";
-import IconGreen from "./icons/IconGreen.vue";
-import IconBlue from "./icons/IconBlue.vue";
+import Icon from "./icons/Icon.vue";
+import ToastManager from "./toast/ToastManager.vue";
 </script>
 
 <template>
   <EventItem color="red" num="500">
     <template #icon>
-      <IconRed />
+      <Icon color="red" />
     </template>
     <template #heading>Red event</template>
     <template #text>
@@ -20,7 +19,7 @@ import IconBlue from "./icons/IconBlue.vue";
 
   <EventItem color="green" num="100">
     <template #icon>
-      <IconGreen />
+      <Icon color="green" />
     </template>
     <template #heading>Green event</template>
     <template #text>
@@ -32,7 +31,7 @@ import IconBlue from "./icons/IconBlue.vue";
 
   <EventItem color="blue" num="3">
     <template #icon>
-      <IconBlue />
+      <Icon color="blue" />
     </template>
     <template #heading>Blue event</template>
     <template #text>
@@ -41,4 +40,6 @@ import IconBlue from "./icons/IconBlue.vue";
       in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
     </template>
   </EventItem>
+
+  <ToastManager></ToastManager>
 </template>

@@ -3,6 +3,7 @@ import { ref } from "vue";
 import axios from "axios";
 
 import { inject } from "vue";
+import { toasts } from "./toast/Toast";
 
 const api = inject("apiHost") + ":" + inject("apiPort");
 const apiEventEndpoint = "event";
@@ -24,8 +25,6 @@ const errorState = ref(false);
 const successState = ref(false);
 const loadingState = ref(false);
 
-console.log(errorState.value);
-
 function submitItem() {
   loadingState.value = true;
   axios
@@ -36,12 +35,12 @@ function submitItem() {
     .then((response) => {
       errorState.value = false;
       successState.value = true;
-      console.info(response);
-      alert(`Send ${num.value} ${color.value}`);
+      toasts.addToast(color.value, num.value);
     })
     .catch((error) => {
       successState.value = false;
       errorState.value = true;
+      toasts.addToast(null, null, true);
     })
     .finally(() => {
       loadingState.value = false;
@@ -79,6 +78,7 @@ function submitItem() {
           }"
           type="button"
           id="button-addon"
+          :disabled="loadingState == true"
         >
           Send&nbsp;
           <span
