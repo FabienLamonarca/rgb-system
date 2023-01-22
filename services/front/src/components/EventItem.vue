@@ -78,6 +78,7 @@ function submitItem() {
           }"
           type="button"
           id="button-addon"
+          :disabled="loadingState == true"
         >
           Send&nbsp;
           <span
