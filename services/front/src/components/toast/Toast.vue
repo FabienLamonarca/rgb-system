@@ -8,6 +8,7 @@ const closedEventLabel = "hidden.bs.toast";
 const emit = defineEmits(["kill"]);
 
 const props = defineProps({
+  uuid: String,
   color: String,
   num: String,
   error: Boolean,
