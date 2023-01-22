@@ -5,7 +5,6 @@ import Toast from "./Toast.vue";
 const items = toasts.getItems();
 
 const removeToast = (itemToDelete) => {
-  console.log(itemToDelete.uuid);
   items.value.splice(
     items.value.findIndex((item) => item.uuid === itemToDelete.uuid),
     1
