@@ -6,14 +6,18 @@ from app.settings import get_settings
 from fastapi.middleware.cors import CORSMiddleware
 
 from avro.errors import AvroTypeException
-
-
+from prometheus_fastapi_instrumentator import Instrumentator
 
 origins = [
     "http://localhost:8080",
 ]
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup():
+    # https://github.com/trallnag/prometheus-fastapi-instrumentator
+    Instrumentator().instrument(app).expose(app)
 
 app.add_middleware(
     CORSMiddleware,

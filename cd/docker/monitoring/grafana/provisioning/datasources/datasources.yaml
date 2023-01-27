@@ -1,0 +1,10 @@
+# Configuration file version
+apiVersion: 1
+
+datasources:
+  - name: RGB-Prometheus
+    type: prometheus
+    uid: my_prometheus_datasource
+    url: http://prometheus:9090
+    version: 1
+    editable: false
