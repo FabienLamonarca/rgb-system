@@ -192,6 +192,29 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "prometheus-client"
+version = "0.16.0"
+description = "Python client for the Prometheus monitoring system."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+twisted = ["twisted"]
+
+[[package]]
+name = "prometheus-fastapi-instrumentator"
+version = "5.9.1"
+description = "Instrument your FastAPI with Prometheus metrics"
+category = "main"
+optional = false
+python-versions = ">=3.7.0,<4.0.0"
+
+[package.dependencies]
+fastapi = ">=0.38.1,<1.0.0"
+prometheus-client = ">=0.8.0,<1.0.0"
+
+[[package]]
 name = "pydantic"
 version = "1.10.4"
 description = "Data validation and settings management using python type hints"
@@ -372,7 +395,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9fa6c67219c278657452f481f183abd9132468e894f37d3c08dc15572155f18b"
+content-hash = "7e198d2f8ac200b636442fedc916db21e8e12c06edf463f1827227b5527fce20"
 
 [metadata.files]
 anyio = [
@@ -502,6 +525,14 @@ packaging = [
 pluggy = [
     {file = "pluggy-1.0.0-py2.py3-none-any.whl", hash = "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"},
     {file = "pluggy-1.0.0.tar.gz", hash = "sha256:4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159"},
+]
+prometheus-client = [
+    {file = "prometheus_client-0.16.0-py3-none-any.whl", hash = "sha256:0836af6eb2c8f4fed712b2f279f6c0a8bbab29f9f4aa15276b91c7cb0d1616ab"},
+    {file = "prometheus_client-0.16.0.tar.gz", hash = "sha256:a03e35b359f14dd1630898543e2120addfdeacd1a6069c1367ae90fd93ad3f48"},
+]
+prometheus-fastapi-instrumentator = [
+    {file = "prometheus-fastapi-instrumentator-5.9.1.tar.gz", hash = "sha256:3651a72f73359a28e8afb0d370ebe3774147323ee2285e21236b229ce79172fc"},
+    {file = "prometheus_fastapi_instrumentator-5.9.1-py3-none-any.whl", hash = "sha256:b5206ea9aa6975a0b07f3bf7376932b8a1b2983164b5abb04878e75ba336d9ed"},
 ]
 pydantic = [
     {file = "pydantic-1.10.4-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:b5635de53e6686fe7a44b5cf25fcc419a0d5e5c1a1efe73d49d48fe7586db854"},

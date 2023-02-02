@@ -2,16 +2,19 @@ version: "3.8"
 
 networks:
   frontend:
-    driver: bridge
   backend:
-    driver: bridge
   kafka:
-    driver: bridge
+  monitoring:
+  monitoring_api:
 
 volumes:
   redpanda-schema-registry:
     driver: local
   schema-registry-secret:
+    driver: local
+  grafana-storage:
+    driver: local
+  prometheus-storage:
     driver: local
 
 services:
@@ -53,6 +56,7 @@ services:
     networks:
       - frontend
       - backend
+      - monitoring_api
 
   schema-updater:
     <<: *api
@@ -126,3 +130,30 @@ services:
         condition: service_started
       kafka-schema-registry:
         condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:9.2.8
+    ports:
+      - "3000:3000"
+    networks:
+      - kafka
+      - monitoring
+    volumes:
+      - "./cd/docker/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini" # init config
+      - "./cd/docker/monitoring/grafana/provisioning:/etc/grafana/provisioning" # provision datasource & providers
+      - "./cd/docker/monitoring/grafana/dashboards:/var/lib/grafana/dashboards" # provision dashboards
+      - "grafana-storage:/var/lib/grafana"
+
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-admin-api"
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+      - monitoring_api
+    volumes:
+      - "prometheus-storage:/prometheus"
+      - "./cd/docker/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
