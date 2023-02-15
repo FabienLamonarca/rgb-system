@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import Icon from "../icons/Icon.vue";
 import { ref } from "vue";
+import { Toast } from "bootstrap";
 
 const toast = ref();
 const closedEventLabel = "hidden.bs.toast";
@@ -31,7 +32,7 @@ const kill = () => {
 };
 
 onMounted(() => {
-  new bootstrap.Toast(toast.value).show();
+  new Toast(toast.value).show();
 });
 </script>
 
