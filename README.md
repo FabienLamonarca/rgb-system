@@ -1,5 +1,13 @@
 # rgb-system
 
+## What is rgb-system ?
+
+This is a full stack application, from a frontend consisting of 3 buttons generating "events" (red, blue, green) to a big data OLAP system.
+
+### Stack schema
+
+![RGB System](./services/rgb-system.svg)
+
 ## How to build application 🛠️
 
 The only thing you will need should be **Docker** 🐋
